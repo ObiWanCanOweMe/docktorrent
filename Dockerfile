@@ -1,9 +1,9 @@
 FROM debian:jessie
 
-MAINTAINER kfei <kfei@kfei.net>
+MAINTAINER obiwancanoweme <andrew@kener.org>
 
-ENV VER_LIBTORRENT 0.13.4
-ENV VER_RTORRENT 0.9.4
+ENV VER_LIBTORRENT 0.13.6
+ENV VER_RTORRENT 0.9.6
 
 WORKDIR /usr/local/src
 
@@ -86,6 +86,14 @@ RUN htpasswd -cb /usr/share/nginx/html/rutorrent/.htpasswd docktorrent p@ssw0rd
 COPY config/nginx/default /etc/nginx/sites-available/default
 COPY config/rtorrent/.rtorrent.rc /root/.rtorrent.rc
 COPY config/rutorrent/config.php /usr/share/nginx/html/rutorrent/conf/config.php
+
+# Create abc user
+RUN mkdir /etc/my_init.d/
+COPY init/*.sh /etc/my_init.d/
+RUN useradd -u 911 -U -d /rtorrent -s /bin/false abc && \
+      usermod -G users abc && \
+      chmod +x /etc/my_init.d/*.sh && \
+CMD ["/sbin/my_init"]
 
 # Add the s6 binaries fs layer
 ADD s6-1.1.3.2-musl-static.tar.xz /
