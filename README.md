@@ -28,7 +28,7 @@ docker build -t docktorrent .
 The building process may take some time. You can just pull the latest image
 from mine:
 ```bash
-docker pull kfei/docktorrent
+docker pull obiwancanoweme/docktorrent
 ```
 
 After the image is built or pulled, run the docktorrent container, for example:
